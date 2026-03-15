@@ -1,0 +1,15 @@
+#pragma once
+
+#define N (1024 * 1024 * 64)
+
+inline auto SumMedium() noexcept {
+    int sum = 0;
+
+#pragma omp parallel for
+    for(int i = 0; i < N; ++i) {
+#pragma omp atomic
+        ++sum;
+    }
+
+    return sum;
+}
