@@ -1,6 +1,7 @@
 #include "fast.h"
 #include "fastest.h"
 #include "medium.h"
+#include "simd.h"
 #include "slow.h"
 
 #include <benchmark/registration.h>
@@ -26,6 +27,13 @@ static void BM_SumMedium(benchmark::State& state) noexcept {
     }
 }
 BENCHMARK(BM_SumMedium);
+
+static void BM_SumSimd(benchmark::State& state) noexcept {
+    for (auto _ : state) {
+        SumSimd();
+    }
+}
+BENCHMARK(BM_SumSimd);
 
 static void BM_SumSlow(benchmark::State& state) noexcept {
     for (auto _ : state) {
