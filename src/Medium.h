@@ -2,12 +2,12 @@
 
 #define N (1024 * 1024 * 64)
 
-inline auto SumSlow() noexcept {
+inline auto SumMedium() noexcept -> int {
     int sum = 0;
 
 #pragma omp parallel for
-    for(int i = 0; i < N; ++i) {
-#pragma omp critical
+    for (int i = 0; i < N; ++i) {
+#pragma omp atomic
         ++sum;
     }
 

@@ -1,11 +1,13 @@
 #pragma once
 
 #include <immintrin.h>
+
+#include <benchmark/export.h>
 #include <benchmark/benchmark.h>
 
 #define N (1024 * 1024 * 64)
 
-inline auto SumSimd() noexcept {
+inline auto SumSimd() noexcept -> int {
     int sum = 0;
 
 #pragma omp parallel reduction(+:sum)
@@ -18,7 +20,7 @@ inline auto SumSimd() noexcept {
         __m256i vOnes = _mm256_set1_epi32(1);
 
 #pragma omp for nowait
-        for(int i = 0; i < N; i += 32) {
+        for (int i = 0; i < N; i += 32) {
             vSum0 = _mm256_add_epi32(vSum0, vOnes);
             vSum1 = _mm256_add_epi32(vSum1, vOnes);
             vSum2 = _mm256_add_epi32(vSum2, vOnes);
@@ -33,10 +35,10 @@ inline auto SumSimd() noexcept {
         );
 
         alignas(32) int tmp[8];
-        _mm256_store_si256((__m256i*)tmp, vTotal);
+        _mm256_store_si256((__m256i *) tmp, vTotal);
 
         int localSum = 0;
-        for (int j : tmp) {
+        for (int j: tmp) {
             localSum += j;
         }
 

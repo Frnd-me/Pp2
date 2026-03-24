@@ -5,7 +5,7 @@
 
 #define N (1024 * 1024 * 64)
 
-inline auto SumFast() noexcept {
+inline auto SumFast() noexcept -> int {
     int sum = 0;
 
 #pragma omp parallel
@@ -13,7 +13,7 @@ inline auto SumFast() noexcept {
         int localSum = 0;
 
 #pragma omp for
-        for(int i = 0; i < N; ++i) {
+        for (int i = 0; i < N; ++i) {
             ++localSum;
             benchmark::DoNotOptimize(localSum);
         }
